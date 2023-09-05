@@ -7,18 +7,20 @@ function moveNPC(world: World) {
 		const character = model.Model.Clone();
 		const humanoid = character.FindFirstChildOfClass("Humanoid");
 		character.Parent = Workspace;
-		let positions = points.Points;
+		const positions = points.Points;
 
 		character.PivotTo(positions[0].CFrame);
 
 		task.spawn(() => {
 			world.despawn(id);
 
-			for (let i = 1; i < positions.size(); i++) {
-				const position = positions[i].Position;
-				humanoid?.MoveTo(position);
-				humanoid?.MoveToFinished.Wait();
-			}
+			positions.forEach((position) => {
+				humanoid?.MoveTo(position.Position);
+				while (!humanoid?.MoveToFinished.Wait()) {
+					// humanoid?.MoveToFinished.Wait() returns false until point is reached
+					humanoid?.MoveTo(position.Position);
+				}
+			});
 
 			character.Destroy();
 		});

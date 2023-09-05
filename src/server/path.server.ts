@@ -7,14 +7,15 @@ const world = new World();
 const loop = new Loop(world, {});
 
 CollectionService.GetTagged("Path").forEach((path) => {
-	let points = new Array<Part>
+	const points: Part[] = [];
 
 	if (path.IsA("Model")) {
-		path.FindFirstChild("Points")?.GetChildren().forEach((part) => {
-			points[tonumber(part.Name) as number - 1] = part as Part
-			print(points)
-		})
-		
+		path.FindFirstChild("Points")
+			?.GetChildren()
+			.forEach((part) => {
+				points[(tonumber(part.Name) as number) - 1] = part as Part;
+				print(points);
+			});
 	}
 
 	task.spawn(() => {
