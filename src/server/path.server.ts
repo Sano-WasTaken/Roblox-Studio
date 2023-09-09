@@ -14,7 +14,6 @@ CollectionService.GetTagged("Path").forEach((path) => {
 			?.GetChildren()
 			.forEach((part) => {
 				points[(tonumber(part.Name) as number) - 1] = part as Part;
-				print(points);
 			});
 	}
 
